@@ -1,5 +1,12 @@
-function DashboardPage() {
-  return <div>Dashboard</div>;
-}
+// SSR | SSG | ISR
 
-export default DashboardPage;
+const fetchData = () =>
+  fetch("https://jsonplaceholder.typicode.com/todos/1", {
+    next: { revalidate: 10 },
+  }).then((response) => response.json());
+
+export default async function DashboardPage() {
+  const data = await fetchData();
+
+  return <div>{data?.title}</div>;
+}
